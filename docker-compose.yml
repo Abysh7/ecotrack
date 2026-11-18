@@ -1,0 +1,19 @@
+services:
+  servidor:
+    build: ./servidor
+    container_name: ecotrack-backend
+    ports:
+      - "5000:5000"
+    # La conexión a MongoDB Atlas (MONGO_URI) se lee de servidor/.env
+    env_file:
+      - ./servidor/.env
+    restart: unless-stopped
+
+  cliente:
+    build: ./cliente
+    container_name: ecotrack-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - servidor
+    restart: unless-stopped
